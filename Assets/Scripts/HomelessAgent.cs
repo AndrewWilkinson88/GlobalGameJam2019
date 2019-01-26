@@ -32,6 +32,7 @@ public class HomelessAgent : MonoBehaviour
     public Seat curLocation;
     public Vector3 moveGoal;
 
+    private bool forceStopCol = false;
     private bool hasTarget = false;
     private Vector3 targetPos;
     private Sequence moveSequence;
@@ -62,9 +63,17 @@ public class HomelessAgent : MonoBehaviour
             Vector3 currentPosition = ShelterManager.instance.grid.WorldToCell(transform.position);
             currentPosition[2] = 0.0f;
             List<Vector3> path = AStar.FindPath(collisionMap, currentPosition, targetPos);
+            Vector3 previous = currentPosition;
+
             foreach ( Vector3 v in path)
             {
-                moveSequence.Append(transform.DOMove(v, 5.0f).SetSpeedBased());
+                Vector3 mappedPos = ShelterManager.instance.grid.CellToWorld(new Vector3Int((int)v.x, (int)v.y, 0));
+                moveSequence.Append(transform.DOMove(mappedPos, 0.2f).SetEase(Ease.Linear));
+                previous = v;
+            }
+            if( curLocation != null )
+            {
+                moveSequence.Append(transform.DOMove(ShelterManager.instance.grid.CellToWorld(new Vector3Int(curLocation.x, curLocation.y, 0)), 0.2f).SetEase(Ease.Linear));
             }
             moveSequence.Play();
         }
@@ -72,13 +81,20 @@ public class HomelessAgent : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.GetComponent<EntranceHandler>())
+        if (!forceStopCol)
         {
-            if( InNeed() || ShelterManager.instance.waitingRoom.IsSeatAvailable() )
+            if (col.GetComponent<EntranceHandler>())
             {
-                curLocation = ShelterManager.instance.waitingRoom.TakeSeat();
-                targetPos = new Vector3(curLocation.x, curLocation.y);
-                hasTarget = true;
+                if (InNeed() || ShelterManager.instance.waitingRoom.IsSeatAvailable())
+                {
+                    curLocation = ShelterManager.instance.waitingRoom.TakeSeat();
+                    if (curLocation != null)
+                    {
+                        targetPos = new Vector3(curLocation.x,curLocation.y);
+                        hasTarget = true;
+                    }
+                    forceStopCol = true;
+                }
             }
         }
     }
