@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ShelterManager : MonoBehaviour
 {
     public static ShelterManager instance;
+
+    public Dictionary<LocatableTile.TileTypes, List<TileInstanceInfo> > objectMap = new Dictionary<LocatableTile.TileTypes, List<TileInstanceInfo>>();
 
     public Grid grid;
     public WaitingRoom waitingRoom;

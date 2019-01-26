@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class WaitingRoom : MonoBehaviour
 {
@@ -17,21 +18,26 @@ public class WaitingRoom : MonoBehaviour
 
     }
 
-    public List<Seat> seats = new List<Seat>();
+    //public List<TileInstanceInfo> seats = new List<TileInstanceInfo>();
 
     private int occupiedSeats = 0;
 
     public bool IsSeatAvailable()
     {
-        return (occupiedSeats < seats.Count);
+        return (occupiedSeats < GetSeats().Count);
     }
 
-    public Seat TakeSeat()
+    public List<TileInstanceInfo> GetSeats()
+    {
+        return ShelterManager.instance.objectMap[LocatableTile.TileTypes.WAITING_ROOM_BENCH];
+    }
+
+    public TileInstanceInfo TakeSeat()
     {
         if (!IsSeatAvailable())
             return null;
 
-        foreach(Seat s in seats)
+        foreach(TileInstanceInfo s in GetSeats())
         {
             if (!s.occupied)
             {
@@ -44,7 +50,7 @@ public class WaitingRoom : MonoBehaviour
         return null;
     }
 
-    public void LeaveSeat(Seat s)
+    public void LeaveSeat(TileInstanceInfo s)
     {
         if(s.occupied)
         {

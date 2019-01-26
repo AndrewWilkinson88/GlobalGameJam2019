@@ -24,7 +24,7 @@ public class HomelessAgent : MonoBehaviour
         TakingSeat,
     }
 
-    public Seat curLocation;
+    public TileInstanceInfo curLocation;
     public Vector3 moveGoal;
 
     // Start is called before the first frame update
