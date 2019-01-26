@@ -18,6 +18,7 @@ public class WaitingRoom : MonoBehaviour
     }
 
     public List<Seat> seats = new List<Seat>();
+    public List<Seat> doors = new List<Seat>();
 
     private int occupiedSeats = 0;
 

@@ -22,7 +22,6 @@ namespace Pathfinding
             List<Vector3> result = null;
 
             List<Vector3Int> path = FindPath(map, map.WorldToCell(start), map.WorldToCell(goal));
-
             if(path != null)
             {
                 result = new List<Vector3>(path.Capacity);

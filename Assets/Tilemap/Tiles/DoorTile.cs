@@ -10,14 +10,14 @@ using UnityEditor;
 namespace UnityEngine.Tilemaps
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "New Waiting Room Tile", menuName = "Tiles/Waiting Room")]
-    public class WaitingRoomTile : Tile
+    [CreateAssetMenu(fileName = "New Waiting Room Tile", menuName = "Tiles/DoorTile")]
+    public class DoorTile : Tile
     {
         public bool StartUp(Vector3Int position, Tilemaps.ITilemap tilemap, GameObject go)
         {
             if (EditorApplication.isPlaying)
-            { 
-                ShelterManager.instance.waitingRoom.seats.Add(new Seat(tilemap, position.x, position.y, false));
+            {
+                ShelterManager.instance.waitingRoom.doors.Add(new Seat(tilemap, position.x, position.y, false));
             }
             return true;
         }
