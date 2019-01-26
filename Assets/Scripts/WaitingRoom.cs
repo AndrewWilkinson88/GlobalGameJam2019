@@ -17,7 +17,7 @@ public class WaitingRoom : MonoBehaviour
 
     }
 
-    public List<Seat> seats;
+    public List<Seat> seats = new List<Seat>();
 
     private int occupiedSeats = 0;
 

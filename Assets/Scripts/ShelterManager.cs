@@ -6,12 +6,11 @@ public class ShelterManager : MonoBehaviour
 {
     public static ShelterManager instance;
 
+    public Grid grid;
     public WaitingRoom waitingRoom;
     public Cafeteria cafeteria;
     public Dormatory dormatory;
-
-    public Grid grid;
-
+    
     // Start is called before the first frame update
     void Start()
     {

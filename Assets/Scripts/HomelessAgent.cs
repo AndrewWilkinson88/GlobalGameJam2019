@@ -47,7 +47,9 @@ public class HomelessAgent : MonoBehaviour
             if( InNeed() || ShelterManager.instance.waitingRoom.IsSeatAvailable() )
             {
                 curLocation = ShelterManager.instance.waitingRoom.TakeSeat();
-                moveGoal = new Vector3(curLocation.x, curLocation.y);
+
+                moveGoal = ShelterManager.instance.grid.CellToWorld(new Vector3Int(curLocation.x, curLocation.y,0));
+                Debug.Log(moveGoal);
             }
         }
     }
