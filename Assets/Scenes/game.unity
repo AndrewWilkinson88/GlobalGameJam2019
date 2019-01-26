@@ -774,15 +774,6 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
-  - first: {x: -17, y: 0, z: 0}
-    second:
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 1
-      m_ColliderType: 1
   - first: {x: -16, y: 0, z: 0}
     second:
       m_TileIndex: 0
@@ -2657,13 +2648,17 @@ Tilemap:
       m_ColliderType: 1
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 273
+  - m_RefCount: 272
     m_Data: {fileID: 11400000, guid: bdb0e8de7dc018845a0f30ef69921b4f, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 273
+  - m_RefCount: 272
     m_Data: {fileID: 21301946, guid: f8d8f94c3158feb43aac6c3e993d6dbc, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
-  - m_RefCount: 273
+  - m_RefCount: 272
     m_Data:
       e00: 1
       e01: 0
@@ -2682,12 +2677,12 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 273
+  - m_RefCount: 272
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -17, y: -2, z: 0}
-  m_Size: {x: 37, y: 18, z: 1}
+  m_Origin: {x: -18, y: -16, z: 0}
+  m_Size: {x: 40, y: 66, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -9468,7 +9463,7 @@ PrefabInstance:
     - target: {fileID: 6215090608596296010, guid: 79dab3e2dac35d24b8ed65262db00665,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.3
+      value: -4.56
       objectReference: {fileID: 0}
     - target: {fileID: 6215090608596296010, guid: 79dab3e2dac35d24b8ed65262db00665,
         type: 3}
@@ -9589,6 +9584,6 @@ PrefabInstance:
         type: 3}
       propertyPath: collisionMap
       value: 
-      objectReference: {fileID: 1045078979}
+      objectReference: {fileID: 904979627}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79dab3e2dac35d24b8ed65262db00665, type: 3}
