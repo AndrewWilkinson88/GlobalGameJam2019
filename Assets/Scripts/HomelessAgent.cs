@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class HomelessAgent : MonoBehaviour
+public class HomelessAgent : MonoBehaviour, IPointerClickHandler
 {
+    public GameObject choice;
+
     //Percentage of different traits
     public float food;
     public float energy;
@@ -18,11 +21,18 @@ public class HomelessAgent : MonoBehaviour
 
     public float speed = .2f;
 
-    public enum Actions
+    public enum State
     {
-        Walking,
-        TakingSeat,
+        WALKING_TO_BUILDING,
+        WALKING_TO_WAIT,
+        WAITING,
+        WALKING_TO_EAT,
+        EATING,
+        WALKING_TO_SLEEP,
+        SLEEPING
     }
+
+    public State curState = State.WALKING_TO_BUILDING;
 
     public TileInstanceInfo curLocation;
     public Vector3 moveGoal;
@@ -36,7 +46,47 @@ public class HomelessAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = this.transform.position + (moveGoal - this.transform.position).normalized * speed;
+        switch(curState)
+        {
+            case State.WALKING_TO_BUILDING:
+                if (WalkTowardGoal())
+                {
+                    
+                }
+                break;
+            case State.WALKING_TO_EAT:
+                if (WalkTowardGoal())
+                {
+
+                }
+                break;
+            case State.WALKING_TO_SLEEP:
+                if (WalkTowardGoal())
+                {
+
+                }
+                break;
+            case State.WALKING_TO_WAIT:
+                if (WalkTowardGoal())
+                {
+                    ChangeState(State.WAITING);
+                }
+                break;
+        }
+    }
+
+    bool WalkTowardGoal()
+    {
+        if ((moveGoal - this.transform.position).magnitude > speed)
+        {
+            this.transform.position = this.transform.position + (moveGoal - this.transform.position).normalized * speed;
+            return false;
+        }
+        else
+        {
+            this.transform.position = moveGoal;
+            return true;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -46,10 +96,7 @@ public class HomelessAgent : MonoBehaviour
         {
             if( InNeed() || ShelterManager.instance.waitingRoom.IsSeatAvailable() )
             {
-                curLocation = ShelterManager.instance.waitingRoom.TakeSeat();
-
-                moveGoal = ShelterManager.instance.grid.CellToWorld(new Vector3Int(curLocation.x, curLocation.y,0));
-                Debug.Log(moveGoal);
+                ChangeState(State.WALKING_TO_WAIT);
             }
         }
     }
@@ -78,5 +125,51 @@ public class HomelessAgent : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log("OnCollisionEnter2D");
+    }
+
+    public void ChangeState(State s)
+    {
+        //Debug.Log("CHANGING STATE : " + s.ToString());
+        if(curState != s)
+        {
+            State lastState = curState;
+            curState = s;
+            switch(lastState)
+            {
+                case State.WAITING:
+                    SetChoiceMenu(false);
+                    break;
+            }
+            switch(curState)
+            {
+                case State.WALKING_TO_WAIT:
+                    curLocation = ShelterManager.instance.waitingRoom.TakeSeat();
+
+                    moveGoal = ShelterManager.instance.grid.CellToWorld(new Vector3Int(curLocation.x, curLocation.y, 0));
+                    Debug.Log(moveGoal);
+                    break;
+            }
+        }        
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //Debug.Log("GOT CLICK IN STATE: " + curState);
+        switch(curState)
+        {
+            case State.WAITING:
+                ToggleChoiceMenu();
+                break;
+        }
+    }
+
+    public void ToggleChoiceMenu()
+    {
+        SetChoiceMenu(!choice.activeSelf);
+    }
+
+    public void SetChoiceMenu(bool visible)
+    {
+        choice.SetActive(visible);
     }
 }
